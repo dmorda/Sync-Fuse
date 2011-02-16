@@ -37,7 +37,7 @@ SUBJECT="Automated Offsite Sync for My Host"
 # Email address you want logs to be sent to
 TO_ADDRESS="your.email@yourdomain.com"
 
-# From address yo uwant messages to appear from
+# From address you want messages to appear from
 FROM_ADDRESS="no-reply@yourdomain.com"
 
 # Date format you want used in certain parts of the log file
