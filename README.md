@@ -46,9 +46,9 @@ Configuration Parameters
 Support & Feedback
 ==================
 
-Send email to damon.morda@brandedclever.com
+Send email to [Damon Morda](mailto:damon.morda@brandedclever.com).
 
 Author
 ======
 
-This script is maintained by Damon Morda [Damon Morda] at Branded Clever (http://www.brandedclever.com/).
+This script is maintained by [Damon Morda](mailto:damon.morda@brandedclever.com) at [Branded Clever](http://www.brandedclever.com/).
