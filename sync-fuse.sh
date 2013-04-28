@@ -16,8 +16,18 @@
 # USER-CONFIGURABLE VARIABLES #
 ###############################
 
+# Declare whether to use a custom sshd configuration or not
+USE_CUSTOM_SSH_CONFIG=false
+
 # Custom sshd configuration file used when connecting to remote host
 FUSE_MOUNT_CONFIG="/home/your_user/.ssh/remote_backup_ssh_config"
+
+# If not using a custom sshd configuration, provide username and password
+USER="user-name"
+PASSWORD="password"
+
+# Specify an alternative port
+PORT=22
 
 # Remote host where you are going to sync your files to
 REMOTE_HOST="remote.host.com"
@@ -61,8 +71,11 @@ LOG_FILE="remote-backup-sync-`date +%Y-%m-%d-%M`.txt"
 # Combined log file variable
 LOGFILE="${LOGDIR}${LOG_FILE}"
 
-# Mounts remote file system
-MOUNT_CMD="sshfs -F $FUSE_MOUNT_CONFIG ${REMOTE_HOST}: $FUSE_DIR"
+# Mounts remote file system using a certian sshd config
+MOUNT_CMD_KEY="sshfs -F $FUSE_MOUNT_CONFIG ${REMOTE_HOST}: $FUSE_DIR"
+
+# Mounts remote file system using username and password
+MOUNT_CMD_PWD="`echo $PASSWORD | sshfs -p $PORT ${USER}@${REMOTE_HOST}: $FUSE_DIR -o password_stdin`"
 
 # Unmounts remote file system
 UNMOUNT_CMD="fusermount -u $FUSE_DIR"
@@ -114,7 +127,11 @@ function mount_remote_file_system {
 		while [ ! `is_mounted` ]
 		do
 			echo "Mounting remote file system." >> ${LOGFILE}
-			$MOUNT_CMD
+			if [ `USE_CUSTOM_SSH_CONFIG` ]; then
+				$MOUNT_CMD_KEY
+			else
+				$MOUNT_CMD_PWD
+			fi
 		done
 		echo "Remote file system mounted." >> ${LOGFILE}
 		#sleep 2
